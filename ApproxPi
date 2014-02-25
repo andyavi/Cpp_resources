@@ -1,0 +1,43 @@
+#include "stdafx.h"
+#include <random> //defines pi
+#include <iostream> //I/O
+#include <fstream> //file output
+#include <cmath> //pow(), if needed
+#include <string> //strings, if needed
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+std::fstream Fout;
+const double pi = (std::_Pi), twoPi = (2 * std::_Pi); int poly_sides = 3; double centralAngle = 0, exteriorAngle = 0;
+double side = 0, perimeter = 0, ratio = 1;
+//assuming radius of circle is 1...
+//could use degrees to find angle measures, but radians used b/c that's what the computer uses
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void update(){
+	using namespace std;
+	centralAngle = (twoPi / poly_sides);
+	exteriorAngle = ((pi - centralAngle) / 2);
+	side = (cosl(exteriorAngle)); //cos(exterior angle) * 1 //(1 is the radius) -> 1 subtriangle
+	perimeter = (poly_sides * side); //now perimeter -> pi as sides -> infinity (perimeter / radius of 1)
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+int main(){
+	using namespace std;
+	Fout.unsetf(std::ios_base::floatfield); Fout.precision(10); Fout.setf(std::ios_base::fixed, std::ios_base::floatfield);
+	cout.unsetf(std::ios_base::floatfield); cout.precision(10); cout.setf(std::ios_base::fixed, std::ios_base::floatfield);
+	int limit = 3; //minimum
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	cout << "-------------------------------------------------------------------------------\n";
+	cout << "\nSides of final n-gon: "; std::cin >> limit; if(limit < 3){ limit = 3; cout << "\nSides set to 3 as a minimum.\n\nYou really should input a bigger number to approximate pi better.\n";}
+	for(int i = 0; i < limit ;++i){
+		update();
+		cout << "\nPi is about: " << perimeter << "\n\n This is about a " << abs((pi - perimeter) * 100) << " percent devation from pi.";
+		cout << "\n-------------------------------------------------------------------------------\n\n";
+		++poly_sides;
+	}
+	cout << endl;
+	return 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
